@@ -1,0 +1,22 @@
+name = "clawdius-spec"
+version = "0.1.0"
+description = "Formal proofs of the clawdius architecture: sandbox isolation, security policy, VFS safety, FSM, capability model, and host/container invariants. Zero-sorry, core-only (Init/Std), import-free modules."
+keywords = ["formal-verification", "agent-safety", "sandbox", "specification"]
+license = "Apache-2.0"
+defaultTargets = ["ClawdiusSpec"]
+
+[[lean_lib]]
+name = "ClawdiusSpec"
+srcDir = "src"
+roots = [
+  "ClawdiusSpec.agent_loop", "ClawdiusSpec.audit", "ClawdiusSpec.capability",
+  "ClawdiusSpec.concurrent_execution", "ClawdiusSpec.container", "ClawdiusSpec.fsm",
+  "ClawdiusSpec.host", "ClawdiusSpec.invariant_ledger", "ClawdiusSpec.proof_cache",
+  "ClawdiusSpec.proof_carrying_edits", "ClawdiusSpec.proof_gateway_routing",
+  "ClawdiusSpec.proof_ring_buffer_extended", "ClawdiusSpec.proof_rpc",
+  "ClawdiusSpec.proof_sandbox_extended", "ClawdiusSpec.proof_symbol_index",
+  "ClawdiusSpec.repo_map_scoring", "ClawdiusSpec.sandbox_policy",
+  "ClawdiusSpec.sanitizer_soundness", "ClawdiusSpec.security_policy",
+  "ClawdiusSpec.TestFold", "ClawdiusSpec.tier_isolation",
+  "ClawdiusSpec.token_budget_scan", "ClawdiusSpec.vfs_safety",
+]
