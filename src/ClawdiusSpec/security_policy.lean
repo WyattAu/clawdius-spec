@@ -249,6 +249,8 @@ theorem raw_prefix_bypass_exists :
       filePath.startsWith workspace = true ∧
       filePath.startsWith (workspace ++ "/") = false :=
   ⟨"/srv/ws", "/srv/ws-evildir/x", by native_decide, by native_decide⟩
+  -- kernel-trust note: startsWith is WF-recursive; decide/rfl cannot
+  -- reduce it (kernel limitation, documented in README postulate inventory)
 
 /-- Pop the top component, clamped at the workspace floor: popping is a
 no-op once the stack is exactly `floor` components long — chroot
@@ -446,6 +448,6 @@ theorem unclamped_prefix_escapes :
       (∀ c ∈ d, c ≠ 0) ∧
       (normalizeWithin 0 (d ++ rest)).take d.length ≠ d ∧
       (normalizeWithin d.length (d ++ rest)).take d.length = d :=
-  ⟨[1, 1], [0], by simp, by native_decide, by
+  ⟨[1, 1], [0], by simp, by decide, by
     have := normalized_prefix_is_workspace [1, 1] [0] (by simp)
     exact this⟩

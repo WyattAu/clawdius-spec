@@ -110,15 +110,16 @@ theorem increment_preserves_platform (counter : RateCounter) :
 theorem rate_limit_monotone (counter : RateCounter) (max : Nat)
     (h : checkRateLimit (incrementCounter counter) max = true) :
     checkRateLimit counter max = true := by
-  simp [checkRateLimit, incrementCounter] at *
-  omega
+  have h1 : counter.count + 1 < max := of_decide_eq_true h
+  have h2 : counter.count < max := Nat.lt_trans (Nat.lt_succ_self counter.count) h1
+  simp only [checkRateLimit]
+  exact decide_eq_true h2
 
 -- Property 8: Rate limit blocks when count reaches max
 theorem rate_limit_blocks_at_max (counter : RateCounter) (max : Nat)
     (h : counter.count >= max) :
     checkRateLimit counter max = false := by
-  simp [checkRateLimit]
-  omega
+  simp [checkRateLimit, Nat.not_lt.2 h]
 
 -- Property 9: Audit entry preserves platform
 theorem audit_preserves_platform (msg : RoutedMessage) (ts : Nat) (action : String) (ok : Bool) :

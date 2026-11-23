@@ -103,10 +103,10 @@ theorem single_tag_skipped (budget : Nat) (tag : Tag)
   have h_fold : List.foldl (scanStep budget) initialState [tag]
       = scanStep budget initialState tag := rfl
   have h_step : (scanStep budget initialState tag) = initialState := by
-    simp only [scanStep, initialState]
-    split
-    · next h2 => omega
-    · rfl
+    have hn : ¬(initialState.cumulativeCost + tag.cost ≤ budget) := by
+      simp only [initialState]; omega
+    simp only [scanStep]
+    rw [if_neg hn]
   rw [h_fold, h_step]; rfl
 
 -- Theorem 5: cumulative cost is always non-negative
