@@ -14,8 +14,12 @@ re-verified under `leanprover/lean4:4.28.0`.
   `postulate_signature_unforgeable` (`capability.lean`, the standard
   crypto assumption). Theorems relying on them are conditional on them —
   this is the honest floor, stated up front.
-- **`native_decide` count: 2** (`security_policy.lean`, concrete literal
-  decisions). Tolerated; `decide` replacement tracked as a follow-up.
+- **`native_decide` count: 2** (`security_policy.lean`, the String
+  `startsWith` prefix-bypass witnesses). `decide` was attempted and is
+  impossible: `String.startsWith` is well-founded recursive, so the
+  kernel cannot reduce it. The List-based witness in the same file was
+  upgraded to kernel `decide`. Remaining trust surface: the native
+  compiler, on two concrete string literals.
 - **No `unsafe`, no `@[implemented_by]`.**
 - **Core-only.** Every module imports only `Init` / `Std` — no mathlib,
   so builds are fast and toolchain-bump risk stays low.
